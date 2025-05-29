@@ -36,9 +36,7 @@
 3.  **设置数据路径：**
     在 <mcfile name="Caltech.py" path="d:\py\Caltech.py"></mcfile> 脚本中，修改 `data_dir` 变量为您数据集的实际路径：
     ```python:d%3A%5Cpy%5CCaltech.py
-    # ... existing code ...
     data_dir = 'D:\\py\\101_ObjectCategories' # 修改为您的数据集路径
-    # ... existing code ...
     ```
 
     脚本会自动将数据集划分为训练集、验证集和测试集，并保存在 `work_dir` 指定的目录下。
