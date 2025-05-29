@@ -106,7 +106,7 @@ def build_model(num_classes, pretrained=True):
     如果pretrained=False，则加载不使用预训练权重的模型。
     """
 
-    model_path = 'D:\\py\\pretrained_resnet18.pth' # 为方便加载，可将预训练模型保存到本地
+    model_path = '替换为工作目录\\pretrained_resnet18.pth' # 为方便加载，可将预训练模型保存到本地
 
     if pretrained and os.path.exists(model_path):
         # 加载预训练的ResNet-18模型
@@ -266,8 +266,7 @@ def test_model(model, test_loader, device):
     #     ])
     
     # # 保存为CSV文件
-    # os.makedirs('D:\\py\\Caltech101', exist_ok=True)
-    # with open('D:\\py\\Caltech101\\class_results.csv', 'w', newline='', encoding='utf-8') as f:
+    # with open('替换为工作目录\\class_results.csv', 'w', newline='', encoding='utf-8') as f:
     #     writer = csv.writer(f)
     #     writer.writerow(['类别', '样本数', '正确数', '准确率'])
     #     writer.writerows(results)
@@ -376,13 +375,15 @@ def train_test_no_pretrained_model(model, train_loader, val_loader, test_loader,
 
 
 if __name__ == '__main__':
+
+    work_dir = '替换为工作目录' # 工作目录
     
     # 加载数据集
-    data_dir = 'D:\\py\\101_ObjectCategories' # 数据集路径
-    train_dir = 'D:\\py\\Caltech101\\train' # 训练集路径
-    val_dir = 'D:\\py\\Caltech101\\val' # 验证集路径
-    test_dir = 'D:\\py\\Caltech101\\test' # 测试集路径
-    save_dir = 'D:\\py\\Caltech101' # 模型保存路径
+    data_dir = '替换为数据集所在目录\\101_ObjectCategories' # 数据集路径
+    train_dir = os.path.join(work_dir, 'train') # 训练集路径
+    val_dir = os.path.join(work_dir, 'val') # 验证集路径
+    test_dir = os.path.join(work_dir, 'test') # 测试集路径
+    save_dir = work_dir # 模型保存路径
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -404,7 +405,8 @@ if __name__ == '__main__':
                 print(f"Batch Size: {batch_size}, Learning Rate: {learning_rate}, Weight Decay: {weight_decay}")
 
                 # 创建TensorBoard SummaryWriter
-                writer = SummaryWriter(f'D:\\py\\Caltech101\\batch_size_{batch_size}_lr_{learning_rate}_weight_decay_{weight_decay}')
+                log_dir = os.path.join(work_dir, f"batch_size_{batch_size}_lr_{learning_rate}_weight_decay_{weight_decay}")
+                writer = SummaryWriter(log_dir)
 
                 model = copy.deepcopy(model_0) # 复制预训练模型
 
@@ -420,9 +422,9 @@ if __name__ == '__main__':
     train_loader, val_loader, test_loader = load_dataset(data_dir, train_dir, val_dir, test_dir)
     print("Dataset loaded.")
 
-    writer_pretrained = SummaryWriter('D:\\py\\Caltech101\\pretrained_resnet18')
-    writer_no_pretrained = SummaryWriter('D:\\py\\Caltech101\\no_pretrained_resnet18')
-
+    writer_pretrained = SummaryWriter(os.path.join(work_dir, "pretrained_resnet18"))
+    writer_no_pretrained = SummaryWriter(os.path.join(work_dir, "no_pretrained_resnet18"))
+    
     # 训练和测试预训练模型
     model = build_model(101, pretrained=True)
     train_test_pretrained_model(model, train_loader, val_loader, test_loader, device,
