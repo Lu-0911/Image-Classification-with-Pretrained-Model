@@ -439,4 +439,5 @@ if __name__ == '__main__':
     # 关闭TensorBoard
     writer_pretrained.close()
     writer_no_pretrained.close()
+    # 命令行执行 tensorboard --logdir=workdir 即可通过tensorboard可视化训练日志
 
